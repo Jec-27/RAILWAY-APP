@@ -18,6 +18,7 @@ DROP PROCEDURE IF EXISTS sp_lisven;
 DROP PROCEDURE IF EXISTS sp_busven;
 DROP PROCEDURE IF EXISTS sp_searchven;
 DROP PROCEDURE IF EXISTS sp_lisdistritos;
+-- Cambios notorios según expediente de alex broca
 
 -- Eliminar tablas si existen (en orden correcto por las foreign keys)
 DROP TABLE IF EXISTS Vendedor;
