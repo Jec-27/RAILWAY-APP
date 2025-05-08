@@ -9,10 +9,10 @@ class VendedorController {
       const porPagina = 10; // Vendedores por página
       const offset = (pagina - 1) * porPagina;
       const { busqueda, tipo } = req.query;
-  
+
       let vendedores = [];
       let totalVendedores = 0;
-  
+
       // Obtener vendedores según filtros y paginación
       if (busqueda && tipo) {
         vendedores = await VendedorModel.buscarPorPaginado(busqueda, tipo, porPagina, offset);
@@ -21,11 +21,11 @@ class VendedorController {
         vendedores = await VendedorModel.listarPaginado(porPagina, offset);
         totalVendedores = await VendedorModel.contarTodos();
       }
-  
+
       // Calcular el total de páginas
       const totalPaginas = Math.ceil(totalVendedores / porPagina);
       const distritos = await VendedorModel.listarDistritos();
-  
+
       // Renderizar vista con información de paginación
       res.render("index", {
         vendedores,
@@ -38,8 +38,8 @@ class VendedorController {
           totalVendedores,
           totalPaginas,
           // Agregar query string actual para mantener filtros en los enlaces de paginación
-          queryString: req.query.busqueda ? 
-            `busqueda=${encodeURIComponent(req.query.busqueda)}&tipo=${req.query.tipo || 'todos'}` : 
+          queryString: req.query.busqueda ?
+            `busqueda=${encodeURIComponent(req.query.busqueda)}&tipo=${req.query.tipo || 'todos'}` :
             ''
         }
       });
@@ -236,6 +236,22 @@ class VendedorController {
       // 8. Enviar el PDF al cliente mediante pipe
       pdfDoc.pipe(res);
       pdfDoc.end();
+      // controllers/vendedor.controller.js
+      const Vendedor = require("../models/Vendedor");  // Asumiendo que tienes un modelo de Vendedor
+
+      exports.listar = async (req, res) => {
+        try {
+          // Obtener todos los vendedores desde la base de datos
+          const vendedores = await Vendedor.find();
+
+          // Renderizar la vista Lista.ejs y pasar la lista de vendedores
+          res.render("Lista", { vendedores });
+        } catch (error) {
+          console.log(error);
+          res.status(500).send("Error al obtener los vendedores");
+        }
+      };
+
 
       console.log("PDF enviado al cliente correctamente");
     } catch (error) {
@@ -279,6 +295,7 @@ class VendedorController {
       res.status(500).json({ success: false, message: "Error al generar CSV" });
     }
   }
+
 
   // Método alternativo que genera HTML en lugar de PDF, útil en caso de problemas con pdfmake
   static async exportarHTML(req, res) {
@@ -351,7 +368,7 @@ class VendedorController {
         );
     }
   }
-  
+
 }
 
 module.exports = VendedorController;
