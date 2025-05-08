@@ -61,6 +61,22 @@ class VendedorController {
       });
     }
   }
+  static async lista(req,res){
+    const Vendedor = require("../models/Vendedor");  // Asumiendo que tienes un modelo de Vendedor
+
+      exports.listar = async (req, res) => {
+        try {
+          // Obtener todos los vendedores desde la base de datos
+          const vendedores = await Vendedor.find();
+
+          // Renderizar la vista Lista.ejs y pasar la lista de vendedores
+          res.render("Lista", { vendedores });
+        } catch (error) {
+          console.log(error);
+          res.status(500).send("Error al obtener los vendedores");
+        }
+      };
+  }
 
   static async mostrarFormularioNuevo(req, res) {
     try {
@@ -237,20 +253,6 @@ class VendedorController {
       pdfDoc.pipe(res);
       pdfDoc.end();
       // controllers/vendedor.controller.js
-      const Vendedor = require("../models/Vendedor");  // Asumiendo que tienes un modelo de Vendedor
-
-      exports.listar = async (req, res) => {
-        try {
-          // Obtener todos los vendedores desde la base de datos
-          const vendedores = await Vendedor.find();
-
-          // Renderizar la vista Lista.ejs y pasar la lista de vendedores
-          res.render("Lista", { vendedores });
-        } catch (error) {
-          console.log(error);
-          res.status(500).send("Error al obtener los vendedores");
-        }
-      };
 
 
       console.log("PDF enviado al cliente correctamente");
