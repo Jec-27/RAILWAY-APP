@@ -5,6 +5,9 @@ const VendedorController = require("../controllers/vendedor.controller");
 // Listar vendedores con opción de búsqueda
 router.get("/", VendedorController.listar);
 
+// Listar vendedores con opción de búsqueda
+router.get("/Lista", VendedorController.listar);
+
 // Formulario de nuevo vendedor
 router.get("/nuevo", VendedorController.mostrarFormularioNuevo);
 
